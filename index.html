@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        /* --- PREMIUM CSS STYLING --- */
+        @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@700&family=Inter:wght@300;400;600;700&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f4b 50%, #0f1436 100%);
+            color: white;
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            overflow: hidden;
+            user-select: none;
+            position: relative;
+        }
+
+        /* Animated background orbs */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50%; left: -50%; width: 200%; height: 200%;
+            background: radial-gradient(circle at 20% 50%, rgba(0, 229, 255, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(102, 51, 153, 0.1) 0%, transparent 50%);
+            animation: float 20s ease-in-out infinite;
+            z-index: -1;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(30px, -30px); }
+        }
+
+        .card {
+            background: rgba(20, 25, 50, 0.7);
+            backdrop-filter: blur(20px);
+            padding: 50px 40px;
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            text-align: center;
+            width: 100%;
+            max-width: 400px;
+            border: 1px solid rgba(0, 229, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            border-color: rgba(0, 229, 255, 0.4);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 40px rgba(0, 229, 255, 0.1);
+        }
+
+        #timeDisplay {
+            font-family: 'Space Mono', monospace;
+            font-size: 3.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #00E5FF 0%, #64B5F6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 0;
+            letter-spacing: 2px;
+            text-shadow: 0 0 30px rgba(0, 229, 255, 0.3);
+            line-height: 1.2;
+            margin-top: 10px;
+        }
+
+        #dateDisplay {
+            color: #a0a9c9;
+            margin-top: 10px;
+            margin-bottom: 40px;
+            font-size: 1rem;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+        }
+
+        .input-group { margin-bottom: 25px; text-align: left; }
+
+        .input-label {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #00E5FF;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            opacity: 0.9;
+            margin-left: 5px;
+        }
+
+        /* Shared styling for both Inputs */
+        input {
+            width: 100%;
+            padding: 18px 20px;
+            background: linear-gradient(135deg, rgba(30, 30, 60, 0.8) 0%, rgba(40, 40, 80, 0.8) 100%);
+            border: 2px solid rgba(0, 229, 255, 0.3);
+            color: white;
+            font-family: 'Inter', sans-serif;
+            border-radius: 15px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        /* Specifics for Time Input */
+        input[type="time"] {
+            font-family: 'Space Mono', monospace;
+            font-size: 1.5rem;
+            text-align: center;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        /* Specifics for Message Input */
+        input[type="text"] {
+            font-size: 1rem;
+            text-align: left;
+            margin-bottom: 20px;
+        }
+        
+        input::placeholder { color: rgba(255, 255, 255, 0.3); }
+
+        input:hover, input:focus {
+            border-color: #00E5FF;
+            box-shadow: 0 0 20px rgba(0, 229, 255, 0.2);
+            background: linear-gradient(135deg, rgba(40, 40, 80, 0.9) 0%, rgba(50, 50, 100, 0.9) 100%);
+        }
+
+        /* Button Styling */
+        button {
+            width: 100%;
+            padding: 18px 30px;
+            background: linear-gradient(135deg, #00E5FF 0%, #00B8D4 100%);
+            color: #0a0e27;
+            border: none;
+            border-radius: 15px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0, 229, 255, 0.3);
+            transition: all 0.3s ease;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            animation: glow 3s ease-in-out infinite;
+            margin-top: 10px;
+        }
+
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 10px 30px rgba(0, 229, 255, 0.3); }
+            50% { box-shadow: 0 10px 30px rgba(0, 229, 255, 0.4), 0 0 20px 5px rgba(0, 229, 255, 0.2); }
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0, 229, 255, 0.4);
+        }
+
+        .status {
+            margin-top: 25px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #a0a9c9;
+            min-height: 24px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <h1 id="timeDisplay">00:00:00</h1>
+        <p id="dateDisplay">Loading...</p>
+
+        <div class="input-group">
+            <label class="input-label">Reason / Motivation</label>
+            <input type="text" id="msgInput" placeholder="e.g. Go to Gym, Take Meds...">
+            
+            <label class="input-label" style="margin-top: 20px;">Set Time</label>
+            <input type="time" id="alarmInput">
+        </div>
+        
+        <button id="btnAction" onclick="toggleAlarm()">Activate Alarm</button>
+        <p class="status" id="statusMsg">System Ready</p>
+    </div>
+
+    <script>
+        let alarmTime = null;
+        let alarmActive = false;
+
+        function updateClock() {
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString('en-GB', { hour12: false });
+            
+            document.getElementById('timeDisplay').innerText = timeStr;
+            document.getElementById('dateDisplay').innerText = now.toDateString();
+
+            if (alarmActive && alarmTime === timeStr.substring(0, 5) && now.getSeconds() === 0) {
+                triggerAlert();
+            }
+        }
+
+        function toggleAlarm() {
+            const btn = document.getElementById('btnAction');
+            const status = document.getElementById('statusMsg');
+            const timeInput = document.getElementById('alarmInput');
+            const msgInput = document.getElementById('msgInput');
+
+            if (!alarmActive) {
+                if(timeInput.value) {
+                    alarmTime = timeInput.value;
+                    alarmActive = true;
+                    
+                    // Lock inputs
+                    timeInput.disabled = true;
+                    msgInput.disabled = true;
+
+                    // Update UI
+                    btn.innerText = "STOP ALARM";
+                    btn.style.background = "linear-gradient(135deg, #FF6B6B 0%, #EE5A6F 100%)";
+                    btn.style.boxShadow = "0 10px 30px rgba(255, 107, 107, 0.3)";
+                    
+                    status.innerText = "Alarm Active for " + alarmTime;
+                    status.style.color = "#00E5FF";
+                } else {
+                    status.innerText = "Please select a time first!";
+                    status.style.color = "#FF6B6B";
+                }
+            } else {
+                // Reset
+                alarmActive = false;
+                alarmTime = null;
+                
+                // Unlock inputs
+                timeInput.disabled = false;
+                msgInput.disabled = false;
+
+                btn.innerText = "ACTIVATE ALARM";
+                btn.style.background = "linear-gradient(135deg, #00E5FF 0%, #00B8D4 100%)";
+                btn.style.boxShadow = "0 10px 30px rgba(0, 229, 255, 0.3)";
+                
+                status.innerText = "System Ready";
+                status.style.color = "#a0a9c9";
+            }
+        }
+
+        function triggerAlert() {
+            const userText = document.getElementById('msgInput').value;
+
+            // 1. Play Sound
+            window.pywebview.api.trigger_py_alarm();
+            
+            // 2. Send Telegram
+            window.pywebview.api.send_telegram_py(userText);
+            
+            // 3. Browser Alert
+            alert("⏰ TIME IS UP!");
+            toggleAlarm(); 
+        }
+
+        setInterval(updateClock, 1000);
+        updateClock();
+    </script>
+</body>
+</html>
